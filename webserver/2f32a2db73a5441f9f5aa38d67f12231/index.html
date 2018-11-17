@@ -7,7 +7,6 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>Shopping Cart Course Discoveryvip.com</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css" integrity="sha384-AysaV+vQoT3kOAXZkl02PThvDr8HYKPZhNT5h/CXfBThSRXQ6jW5DO2ekP5ViFdi" crossorigin="anonymous">
-    <link rel="stylesheet" href="/static/style.css" type = "text/css">
     <style>
         #output {
             clear: both;
@@ -30,10 +29,7 @@
             <div id="checkoutdiv " class="container">
                 <div class="row">
                     <div class="col-md-6 text-xs-right ">(<span class="items text-muted"></span> <small>items</small>) <span class="total"></span> </div>
-                    <div class="col-md-6 text-xs-right">
-                        <span class="btn btn-success" data-toggle="modal" data-target="#cart">Open Shopping Cart</span>
-                        <a href="{{ url_for('login') }}" class="btn btn-primary">Log in</a>
-                        <a href="checkout.html" class="btn btn-primary">Proceed to checkout</a></div>
+                    <div class="col-md-6 text-xs-right"> <span class="btn btn-success" data-toggle="modal" data-target="#cart">Open Shopping Cart</span><a href="checkout.html" class="btn btn-primary">Proceed to checkout</a></div>
                 </div>
             </div>
         </div>
@@ -163,16 +159,12 @@
                                 <th>Cost</th>
                                 <th class="text-xs-right">Subtotal</th>
                             </tr>
-                        <a href="checkout.html" class="btn btn-primary">Proceed to checkout</a>
                         </thead>
                         <tbody id="output"> </tbody>
                     </table>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-warning" data-dismiss="modal">Continue Shopping</button>
-                    <a href="checkout.html" class="btn btn-primary">Proceed to checkout</a>
-
-                </div>
+                    <button type="button" class="btn btn-warning" data-dismiss="modal">Continue Shopping</button><a href="checkout.html" class="btn btn-primary">Proceed to checkout</a></div>
             </div>
         </div>
     </div>

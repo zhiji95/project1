@@ -40,7 +40,7 @@ DB_PASSWORD = "tf7uykkz"
 
 DB_SERVER = "w4111.cisxo09blonu.us-east-1.rds.amazonaws.com"
 
-DATABASEURI = "postgresql://"+DB_USER+":"+DB_PASSWORD+"@"+DB_SERVER+"/w4111"
+DATABASEURI = "postgresql://"+DB_USER+":"+DB_PASSWORD+"@"+DB_SERVER+"/"
 
 
 #
@@ -152,25 +152,37 @@ def index():
   #     {% endfor %}
   #
   context = dict(data = names)
+  if request.method == 'POST':
+    if request.form['submit_button'] == 'Do Something':
+      return render_template('index.html')
+      pass  # do something
+    elif request.form['submit_button'] == 'Do Something Else':
+      pass  # do something else
+    else:
+      pass  # unknown
+  elif request.method == 'GET':
+
 
 
   #
   # render_template looks in the templates/ folder for files.
   # for example, the below file reads template/index.html
   #
-  return render_template("index.html", **context)
+    return render_template("login.html", **context)
+
+
 
 #
 # This is an example of a different path.  You can see it at
 # 
 #     localhost:8111/another
 #
-# notice that the functio name is another() rather than index()
+# notice that the function name is another() rather than index()
 # the functions for each app.route needs to have different names
 #
-@app.route('/another')
-def another():
-  return render_template("anotherfile.html")
+@app.route('/')
+def home():
+  return render_template("index.html")
 
 
 # Example of adding new data to the database
@@ -185,6 +197,7 @@ def add():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+
     if request.method == 'POST':
         session['username'] = request.form['username']
         return redirect(url_for('index'))
