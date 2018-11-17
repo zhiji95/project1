@@ -18,8 +18,7 @@ Read about it online.
 import os
 from sqlalchemy import *
 from sqlalchemy.pool import NullPool
-from flask import Flask, request, render_template, g, redirect, Response
-
+from flask import Flask, request, render_template, g, redirect, Response,escape,url_for, session
 tmpl_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
 app = Flask(__name__, template_folder=tmpl_dir)
 
@@ -184,10 +183,34 @@ def add():
   return redirect('/')
 
 
-@app.route('/login')
+@app.route('/login', methods=['GET', 'POST'])
 def login():
-    abort(401)
-    this_is_never_executed()
+    if request.method == 'POST':
+        session['username'] = request.form['username']
+        return redirect(url_for('index'))
+    return '''
+        <form method="post">
+            <p><input type=text name=username>
+            <p><input type=submit value=Login>
+        </form>
+    '''
+# Set the secret key to some random bytes. Keep this really secret!
+
+app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
+
+@app.route('/')
+# def index():
+#     if 'username' in session:
+#         return 'Logged in as %s' % escape(session['username'])
+#     return 'You are not logged in'
+
+
+
+@app.route('/logout')
+def logout():
+    # remove the username from the session if it's there
+    session.pop('username', None)
+    return redirect(url_for('index'))
 
 
 if __name__ == "__main__":
