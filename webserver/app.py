@@ -1,15 +1,12 @@
-from flask import Flask
+from flask import flash, url_for, g
 from flask import Flask, flash, redirect, render_template, request, session, abort
-from flask import render_template, flash, redirect, url_for, request, g
-
-# from app.models import *
-from config import Config
-import datetime
+from flask_login import login_user, logout_user, current_user, login_required
+from forms import LoginForm, RegistrationForm
+from models import *
 from sqlalchemy import *
 import os
-
+from flask_login import LoginManager
 app = Flask(__name__)
-
 DB_USER = "ll3235"
 DB_PASSWORD = "tf7uykkz"
 
@@ -22,41 +19,36 @@ DATABASEURI = "postgresql://"+DB_USER+":"+DB_PASSWORD+"@"+DB_SERVER+"/w4111"
 # This line creates a database engine that knows how to connect to the URI above
 #
 engine = create_engine(DATABASEURI)
+login = LoginManager(app)
 
-username = None
-password = None
-# for row in result:
-#     print(row['username'] == "peiwenliu")
 
 @app.route('/')
 def home():
-    return render_template("index.html")
-
+    return render_template('index.html', title='Home')
 @app.route('/index')
 def index():
-    return render_template("index.html")
+    return render_template('index.html', title='Home')
 
-
-@app.route('/login', methods=['POST', 'GET'])
+@app.route('/login', methods=['GET', 'POST'])
 def login():
-    username = "peiwenliu"
-    password = None
-    result = engine.execute("""SELECT username, password from users;""")
-    for row in result:
-        if (row['username'].encode('ascii', 'ignore') == username
-                and row['password'].encode('ascii', 'ignore') == password):
-            return render_template("index.html")
-    print("Incorrect Username")
-    return render_template("login.html")
+    form = LoginForm()
+    print(form.validate_on_submit())
+    if form.validate_on_submit():
+        user = find_user(engine, form.username.data)
+
+        if user is None or user.password != form.password.data:
+        	flash('Invalid username or password')
+        	return redirect(url_for('login'))
+        user = User(user)
+        login_user(user, remember = form.remember_me.data) 
+        return redirect(url_for('index'))
+    return render_template('login.html', title='Sign in', form=form)
 
 
-@app.route("/logout", methods=['GET', 'POST'])
-def logout():
-    return render_template("index.html")
+# @app.route("/logout")
+# def logout():
 
-@app.route('/checkout', methods=['POST', 'GET'])
-def checkout():
-    return render_template("checkout.html")
+
 
 if __name__ == "__main__":
     app.secret_key = os.urandom(12)

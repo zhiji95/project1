@@ -1,8 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, DateField, SelectField, TextAreaField, IntegerField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo, Length, NumberRange, Optional
-from app.models import get_brands_cates_list, find_first_query
-from app import engine
 import datetime
 
 class LoginForm(FlaskForm):
@@ -12,7 +10,7 @@ class LoginForm(FlaskForm):
 	submit = SubmitField('Sign In')
 
 class RegistrationForm(FlaskForm):
-	username = StringField('Name', validators-[DataRequired()])
+	username = StringField('Name', validators=[DataRequired()])
 	birthday = DateField('birthday (YYYY/MM/DD)', format='%Y%m%d')
 	gender = SelectField('Gender', choices=[('M', 'Male'), ('F', 'Female'), ('N', 'Not To Tell')])
 	password = PasswordField('Password', validators=[DataRequired()])

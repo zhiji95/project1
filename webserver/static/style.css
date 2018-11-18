@@ -82,9 +82,23 @@ input[type="checkbox"] {
   vertical-align: top;
 }
 .input a {
-  color: #fff;
+  color: rgba(21, 21, 21, 0.97);
 }
 .form input.btn {
   background: #1ab188;
   border: none;
+}
+
+h1 {
+    color: #151515;
+    text-align: center;
+}
+
+p {
+  font-family: verdana;
+  font-color: #000;
+}
+p {
+  font-family: verdana;
+  font-color: #000;
 }

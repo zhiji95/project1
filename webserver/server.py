@@ -168,7 +168,7 @@ def index():
   # render_template looks in the templates/ folder for files.
   # for example, the below file reads template/index.html
   #
-    return render_template("login.html", **context)
+    return render_template("base1.html", **context)
 
 
 
