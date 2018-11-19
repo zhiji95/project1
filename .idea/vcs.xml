@@ -2,5 +2,7 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/webserver/app/product" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/webserver/app/startbootstrap-shop-item" vcs="Git" />
   </component>
 </project>
