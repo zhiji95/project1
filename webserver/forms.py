@@ -6,12 +6,16 @@ import datetime
 class LoginForm(FlaskForm):
 	username = StringField('Name', validators=[DataRequired()])
 	password = PasswordField('Password', validators=[DataRequired()])
+
 	remember_me = BooleanField('Remember Me')
 	submit = SubmitField('Sign In')
 
 class RegistrationForm(FlaskForm):
 	username = StringField('Name', validators=[DataRequired()])
-	birthday = DateField('birthday (YYYY/MM/DD)', format='%Y%m%d')
+	phone_number = StringField('Phone Number')
+	address = StringField('Address')
+
+	birthday = DateField('birthday (YYYY/MM/DD)', format='Y/m/d')
 	gender = SelectField('Gender', choices=[('M', 'Male'), ('F', 'Female'), ('N', 'Not To Tell')])
 	password = PasswordField('Password', validators=[DataRequired()])
 	password2 = PasswordField('Repeat Password', validators=[DataRequired(), EqualTo('password')])

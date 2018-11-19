@@ -21,18 +21,34 @@ DATABASEURI = "postgresql://"+DB_USER+":"+DB_PASSWORD+"@"+DB_SERVER+"/w4111"
 engine = create_engine(DATABASEURI)
 login = LoginManager(app)
 
-
 @app.route('/')
 def home():
-    return render_template('index.html', title='Home')
+    product_brand = engine.execute("""
+        with product_brand(pid, price, product_name, brand_name) as
+        (select pid, price, products.name as product_name, brands.name as brand_name 
+        from products, brands
+        where products.bid = brands.bid)
+        select p.pid, price, product_name,brand_name, avg(c.rating) as rating 
+        from product_brand as p, comments_followed_post as c, place_order as o 
+        where p.pid = o.pid and o.oid = c.oid
+        group by p.pid, price, product_name, brand_name;
+        """)
+
+
+    print(product_brand.keys())
+    return render_template('index.html', products=product_brand)
 @app.route('/index')
 def index():
-    return render_template('index.html', title='Home')
+    products = engine.execute("""
+    select * 
+    from products
+    """)
+    print(products.keys())
+    return render_template('index.html', products=products)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
-    print(form.validate_on_submit())
     if form.validate_on_submit():
         user = find_user(engine, form.username.data)
 
@@ -40,11 +56,34 @@ def login():
         	flash('Invalid username or password')
         	return redirect(url_for('login'))
         user = User(user)
-        login_user(user, remember = form.remember_me.data) 
+        login_user(user, remember=form.remember_me.data)
         return redirect(url_for('index'))
     return render_template('login.html', title='Sign in', form=form)
 
 
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    form = RegistrationForm()
+    if request.method == 'POST' and form.validate():
+        uid = engine.execute("""
+                select max(uid) 
+                from users
+                """).fetchone()[0] + 1
+        insert(
+            engine, "user", uid,
+            phone_number=form.phone_number,
+            address = form.birthday,
+            gender = form.gender,
+            birth_date = form.birthday,
+            password = form.password,
+            username = form.username)
+        flash('Thanks for registering')
+        return redirect(url_for('login'))
+    return render_template('register.html', form=form)
+@app.route('/checkout', methods=['GET', 'POST'])
+def checkout():
+    cart = []
+    return render_template('checkout.html', cart=cart)
 # @app.route("/logout")
 # def logout():
 

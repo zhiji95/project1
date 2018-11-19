@@ -29,6 +29,16 @@ class User(object):
 def load_user(uid):
 	return find_user_id(engine, uid)
 
+def insert(engine, table, uid, phone_number, address, gender, birth_date, password, username):
+	assert type(table) == str
+	sql_text = """
+	INSERT INTO '%s'
+	VALUES ('%s', '%s','%s','%s','%s','%s','%s')
+	""" % (table, uid, phone_number, address, gender, birth_date, password, username)
+	try:
+		engine.excute(sql_text)
+	except:
+		print("Invalid insertion")
 
 def find_user(engine, data):
 	sql_text = '''

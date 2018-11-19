@@ -9,6 +9,7 @@
 }
 body {
   background: url(https://newevolutiondesigns.com/images/freebies/new-york-times-square.jpg) no-repeat fixed;
+  max-height: ;
   background-size: cover;
   background-position: 50%;
   font-family: 'Roboto';
@@ -94,10 +95,6 @@ h1 {
     text-align: center;
 }
 
-p {
-  font-family: verdana;
-  font-color: #000;
-}
 p {
   font-family: verdana;
   font-color: #000;

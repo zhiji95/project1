@@ -21,6 +21,15 @@
             background-color: darkgrey;
             color: white;
         }
+        .card-text,.card-title, .card-block, .card-subtitle .text-muted,.modal-body{
+            color: black;
+        }
+        .modal-title {
+            color : black;
+        }
+        .thead-inverse{
+            color : black;
+        }
     </style>
 </head>
 
@@ -33,7 +42,7 @@
                     <div class="col-md-6 text-xs-right">
                         <span class="btn btn-success" data-toggle="modal" data-target="#cart">Open Shopping Cart</span>
                         <a href="{{ url_for('login') }}" class="btn btn-primary">Log in</a>
-                        <a href="checkout.html" class="btn btn-primary">Proceed to checkout</a></div>
+                        <a href="{{ url_for('checkout') }}" class="btn btn-primary">Proceed to checkout</a></div>
                 </div>
             </div>
         </div>
@@ -55,95 +64,27 @@
     <div class="content">
         <!-- content changes on each page -->
         <div class="container">
-            <div class="row">
+            {% for product in products %}
                 <div class="col-md-3">
                     <div class="card">
                         <div class="card-block">
-                            <h3 class="card-title">iPhone</h3>
-                            <h6 class="card-subtitle text-muted">$500.00</h6> <img src="http://placehold.it/350x150" class="img-fluid"> </div>
+                            <h3 class="card-title">{{ product['product_name'] }}</h3>
+                            <h3 class="brand-title">{{ product['brand_name'] }}</h3>
+                            <h6 class="card-subtitle text-muted">$ {{ product['price'] }}</h6>
+                            <img src="http://placehold.it/350x150" class="img-fluid"> </div>
                         <div class="card-block">
-                            <div class="card-text">Product information description why its the best product ever blah blah <a href="#" class="card-link productItem btn btn-primary" data-name="iPhone" data-s="black" data-price="50000" data-id="1">Add to Cart</a> </div>
+                            <div class="card-text"> Rating: {{ product['rating'] }}
+                                <a href="#" class="productItem btn btn-primary" data-name={{ product['product_name'] }} data-price={{ product['price']*100 }} data-id={{ product['pid'] }}>Add to Cart</a>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3">
-                    <div class="card">
-                        <div class="card-block">
-                            <h3 class="card-title">iPad</h3>
-                            <h6 class="card-subtitle text-muted">$300.00</h6> <img src="http://placehold.it/350x150" class="img-fluid"> </div>
-                        <div class="card-block">
-                            <div class="card-text">Product information description why its the best product ever blah blah <a href="#" class="productItem btn btn-primary" data-name="iPad" data-s="white" data-price="30000" data-id="2">Add to Cart</a> </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card">
-                        <div class="card-block">
-                            <h3 class="card-title">Cable 3</h3>
-                            <h6 class="card-subtitle text-muted">$12.00</h6> <img src="http://placehold.it/350x150" class="img-fluid"> </div>
-                        <div class="card-block">
-                            <div class="card-text">Product information description why its the best product ever blah blah <a href="#" class="productItem btn btn-primary" data-name="Cable" data-s="3" data-price="1200" data-id="3">Add to Cart</a> </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card">
-                        <div class="card-block">
-                            <h3 class="card-title">SD Card 32GB</h3>
-                            <h6 class="card-subtitle text-muted">$30.00</h6> <img src="http://placehold.it/350x150" class="img-fluid"> </div>
-                        <div class="card-block">
-                            <div class="card-text">Product information description why its the best product ever blah blah <a href="#" class="productItem btn btn-primary" data-name="SD Card" data-s="32GB" data-price="3000" data-id="4">Add to Cart</a> </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-3">
-                    <div class="card">
-                        <div class="card-block">
-                            <h3 class="card-title">SD Card 16GB</h3>
-                            <h6 class="card-subtitle text-muted">$20.00</h6> <img src="http://placehold.it/350x150" class="img-fluid"> </div>
-                        <div class="card-block">
-                            <div class="card-text">Product information description why its the best product ever blah blah <a href="#" class="productItem btn btn-primary" data-name="SD Card" data-s="16GB" data-price="2000" data-id="5">Add to Cart</a> </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card">
-                        <div class="card-block">
-                            <h3 class="card-title">SD Card 32GB</h3>
-                            <h6 class="card-subtitle text-muted">$10.00</h6> <img src="http://placehold.it/350x150" class="img-fluid"> </div>
-                        <div class="card-block">
-                            <div class="card-text">Product information description why its the best product ever blah blah <a href="#" class="productItem btn btn-primary" data-name="SD Card" data-s="4GB" data-price="1000" data-id="6">Add to Cart</a> </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card">
-                        <div class="card-block">
-                            <h3 class="card-title">Cable 4</h3>
-                            <h6 class="card-subtitle text-muted">$16.00</h6> <img src="http://placehold.it/350x150" class="img-fluid"> </div>
-                        <div class="card-block">
-                            <div class="card-text">Product information description why its the best product ever blah blah <a href="#" class="productItem btn btn-primary" data-name="Cable" data-s="4" data-price="1600" data-id="7">Add to Cart</a> </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card">
-                        <div class="card-block">
-                            <h3 class="card-title">Cable 1</h3>
-                            <h6 class="card-subtitle text-muted">$3.00</h6> <img src="http://placehold.it/350x150" class="img-fluid"> </div>
-                        <div class="card-block">
-                            <div class="card-text">Product information description why its the best product ever blah blah <a href="#" class="productItem btn btn-primary" data-name="Cable" data-s="1" data-price="300" data-id="8">Add to Cart</a> </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {% endfor %}
         </div>
     </div>
     <footer class="footer">
         <div class="container">
-            <p class="text-xs-center">© Copyright info blah blah </p>
+            <p class="text-xs-center">© Copyright Zhi Ji, Linnan Li </p>
         </div>
     </footer>
     <!-- Modals -->
