@@ -21,12 +21,12 @@ class RegistrationForm(FlaskForm):
 
 class ProductForm(FlaskForm):
 	quantity = SelectField('Quantity',
-						   choices=[('one', '1'), ('two', '2'), ('three', '3'), ('four', '4'), ('five', '5')])
+						   choices=[(1, '1'), (2, '2'), (3, '3'), (4, '4'), (5, '5')])
 	submit = SubmitField('ADD TO CART')
 
 class ProfileForm(FlaskForm):
-	oid = HiddenField()
-	pid = HiddenField()
+	oid = StringField()
+	pid = StringField()
 	comment = StringField('Leave comment messages here zph!', validators=[DataRequired()])
 	rating = SelectField('Rate here!',coerce=int,
 						   choices=[(1, '1'), (2, '2'), (3, '3'), (4, '4'), (5, '5')])

@@ -75,23 +75,31 @@ def product(pid):
     form = ProductForm()
     print(form.validate_on_submit())
     if form.validate_on_submit():
-        print(12345)
+        user = find_user(engine, username)
+        user = Customer(user)
+        engine.execute("""
+        INSERT INTO add_to_cart
+        VALUES('%s','%s','%s');
+        """ % (user.uid, form.quantity.data, pid))
+
     product = engine.execute("""
     select products.name as product_name, brands.name as brand_name, price, pid 
     from products, brands
     where pid = '%s' and products.bid = brands.bid;
     """ % (pid)).fetchone()
     comments = engine.execute("""
-    with temp(oid, cid, content, uid, rating) as
-    (SELECT p.oid, c.cid, c.content, c.uid, c.rating 
+    with temp(oid, cid, content, uid, time, rating) as
+    (SELECT p.oid, c.cid, c.content, c.uid, c.time, c.rating 
     from place_order as p, comments_followed_post as c
     WHERE p.oid = c.oid and p.pid = '%s')
-    select distinct oid, cid context, username, rating
+    select distinct oid, cid, content, username, time, rating, avg(rating) as avg_rating
     from temp, users
     where temp.uid = users.uid
+    group by oid, cid, content, username, time, rating
+    order by time DESC;
     """ % (pid))
     print(comments.keys())
-    return render_template('product.html', product=product, comments=comments, form=form, username = username)
+    return render_template('product.html', product=product, comments=comments, form=form, username=username)
 
 @app.route('/profile/<username>',methods=['GET', 'POST'])
 def profile(username):
@@ -103,12 +111,12 @@ def profile(username):
                         select max(cid) 
                         from comments_followed_post
                         """).fetchone()[0] + 1
-        print(cid, form.oid, user.uid, form.pid, form.comment.data,datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'), form.rating.data)
+        print(cid, form.oid.data, user.uid, form.pid.data, form.comment.data,datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'), form.rating.data)
         print(engine.execute('select * from comments_followed_post').keys())
         engine.execute("""
         INSERT INTO comments_followed_post
         VALUES ('%s', '%s','%s','%s','%s','%s','%s');
-        """)%(cid, form.oid, user.uid, form.pid, form.comment.data,datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'), form.rating.data)
+        """%(cid, form.oid.data, user.uid, form.pid.data, form.comment.data,datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'), form.rating.data))
 
 
     orders = engine.execute("""
@@ -120,11 +128,20 @@ def profile(username):
     return render_template('profile.html', user=user, orders=orders, form=form)
 @app.route('/cart/<username>',methods=['GET', 'POST'])
 def cart(username):
-    render_template('cart.html', user=username,items = items)
+    user = find_user(engine, username)
+    user = Customer(user)
+    items = engine.execute("""
+    select * 
+    from add_to_cart as a, products as p
+    where a.pid = p.pid and a.uid = '%s'
+    """%(user.uid))
+    print(items.keys())
+
+    return render_template('cart.html', user=user, items=items)
 
 @app.route('/profile/<username>',methods=['GET', 'POST'])
 def payment(username):
-    render_template('payment.html', user=username)
+    return render_template('payment.html', user=username)
 
 @app.route('/checkout', methods=['GET', 'POST'])
 def checkout():

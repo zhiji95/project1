@@ -15,6 +15,7 @@
                 <div class = "Product">{{ product['product_name'] }}</div>
                 <div class = "price">Price: $ {{ product['price'] }}</div>
                 <div class = "brand">Brand: {{ product['brand_name'] }}</div>
+                <div class = "average_rating">{{ comments['avg_rating'] }} </div>
         </ul>
         <div id="checkoutdiv " class="container">
         <form action="" method="post" novalidate>
@@ -33,6 +34,7 @@
                 <div class = "username">{{ comment['username'] }} comments: </div>
                 <div class = "content">{{ comment['content'] }}</div>
                 <div class = "rating">{{ comment['rating'] }}</div>
+                <div class = "time">{{ comment['time'] }}</div>
             </div>
         {% endfor %}
         {% if username %}

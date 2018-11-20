@@ -3,8 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <meta name = "viewport" content = "width=device-width, initial-scale=1">
+<link rel='stylesheet' href='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'>
+<link rel='stylesheet' href='http://cdnjs.cloudflare.com/ajax/libs/animate.css/3.2.3/animate.min.css'>
+<link rel="stylesheet" href="/static/profile.css" type = "text/css">
 </head>
 <body>
+    <<div class = "profile">
+        <div class = users>Users Profile</div>
+    </div>
+    <div class = "info">
+            <div class = information>
+            <div>User ID:      {{ user.uid }}</div>
+            <div>Username:     {{ user.username }}</div>
+            <div>Birthday:     {{ user.birth_date }}</div>
+            <div>Gender:       {{ user.gender }}</div>
+            <div>Address:      {{ user.address }}</div>
+            <div>Phone number: {{ user.phone_number }}</div>
+        </div>
+    </div>
+    {% for item in items %}
+        <div class = "item">
+            <li>{{ item['name'] }}</li>
+            <li>{{ item['amount'] }}</li>
+        </div>
+    {% endfor %}
+    {% if username %}
+            <a href={{ url_for('index', username = username,login="Log Out")}}> Back</a>
+        {% endif %}
+        {% if not username %}
+            <button class="button">
+                <a href={{ url_for('home')}} >Back</a>
+            </button>
 
+        {% endif %}
 </body>
 </html>
