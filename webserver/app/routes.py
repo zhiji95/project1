@@ -55,7 +55,6 @@ def register():
                 select max(uid) 
                 from users
                 """).fetchone()[0] + 1
-
         insert(
             engine, "users", uid,
             phone_number=form.phone_number.data,
@@ -75,12 +74,13 @@ def product(pid):
     form = ProductForm()
     print(form.validate_on_submit())
     if form.validate_on_submit():
+        time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         user = find_user(engine, username)
         user = Customer(user)
         engine.execute("""
         INSERT INTO add_to_cart
-        VALUES('%s','%s','%s');
-        """ % (user.uid, form.quantity.data, pid))
+        VALUES('%s','%s','%s','%s');
+        """ % (pid, user.uid,form.quantity.data, time))
 
     product = engine.execute("""
     select products.name as product_name, brands.name as brand_name, price, pid 

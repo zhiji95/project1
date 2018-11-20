@@ -47,3 +47,15 @@ a.btn, a.btn-primary, a.btn-sm{
   font-size:18;
   font-family:Arial Black;
 }
+.info{
+  display:grid;
+  background: #1ab188c9;
+  font-size: 20;
+  font-family:monospace;
+  margin:25px;
+}
+div li{
+  background: #cce5ff;
+  padding: 5px;
+  margin: 5px;
+}

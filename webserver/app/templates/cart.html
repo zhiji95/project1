@@ -13,29 +13,33 @@
         <div class = users>Users Profile</div>
     </div>
     <div class = "info">
-            <div class = information>
             <div>User ID:      {{ user.uid }}</div>
             <div>Username:     {{ user.username }}</div>
             <div>Birthday:     {{ user.birth_date }}</div>
             <div>Gender:       {{ user.gender }}</div>
             <div>Address:      {{ user.address }}</div>
             <div>Phone number: {{ user.phone_number }}</div>
-        </div>
     </div>
-    {% for item in items %}
-        <div class = "item">
+    <div class = "container">
+        {% for item in items %}
+        <div class = "order">
             <li>{{ item['name'] }}</li>
             <li>{{ item['amount'] }}</li>
         </div>
-    {% endfor %}
-    {% if username %}
-            <a href={{ url_for('index', username = username,login="Log Out")}}> Back</a>
+        {% endfor %}
+    </div>
+
+    {% if user %}
+            <a href={{ url_for('index', username = user.username,login="Log Out")}}> Back</a>
         {% endif %}
-        {% if not username %}
+        {% if not user %}
             <button class="button">
                 <a href={{ url_for('home')}} >Back</a>
             </button>
 
         {% endif %}
 </body>
+<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+<script  src="/static/index.js"></script>
+
 </html>

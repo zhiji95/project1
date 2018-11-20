@@ -20,7 +20,7 @@ class RegistrationForm(FlaskForm):
 	submit = SubmitField('Sign Up')
 
 class ProductForm(FlaskForm):
-	quantity = SelectField('Quantity',
+	quantity = SelectField('Quantity',coerce=int,
 						   choices=[(1, '1'), (2, '2'), (3, '3'), (4, '4'), (5, '5')])
 	submit = SubmitField('ADD TO CART')
 
