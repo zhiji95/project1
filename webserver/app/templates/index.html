@@ -41,7 +41,7 @@
                     <div class="col-md-6 text-xs-right ">(<span class="items text-muted"></span> <small>items</small>) <span class="total"></span> </div>
                     <div class="col-md-6 text-xs-right">
                         <span class="btn btn-success" data-toggle="modal" data-target="#cart">Open Shopping Cart</span>
-                        {%  if username %}
+                        {%  if login == 'Log Out' %}
                         <a>Welcome {{ username }} !</a>
                         <a href="{{ url_for('profile', username = username) }}" class="btn btn-primary"> Profile</a>
                         {% endif %}
@@ -69,7 +69,7 @@
         <!-- content changes on each page -->
         <div class="container">
             {% for product in products %}
-                <a href = {{ url_for('product', pid = product['pid']) }}>
+                <a href = {{ url_for('product', pid = product['pid'], username = username) }}>
                 <div class="col-md-3">
                     <div class="card">
                         <div class="card-block">

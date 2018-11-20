@@ -19,6 +19,16 @@ class RegistrationForm(FlaskForm):
 	phone_number = StringField("Phone Number")
 	submit = SubmitField('Sign Up')
 
+class ProductForm(FlaskForm):
+	quantity = SelectField('Quantity',
+						   choices=[('one', '1'), ('two', '2'), ('three', '3'), ('four', '4'), ('five', '5')])
+	submit = SubmitField('ADD TO CART')
+
+class ProfileForm(FlaskForm):
+	comment = StringField('Leave comment messages here zph!', validators=[DataRequired()])
+	rating = SelectField('Rate here!',
+						   choices=[('one', '1'), ('two', '2'), ('three', '3'), ('four', '4'), ('five', '5')])
+	submit = SubmitField('Submit')
 	"""def validate_username(self, username):
 		user = find_first_query(engine, username.data, "username", "users")
 	"""

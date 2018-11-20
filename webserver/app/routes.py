@@ -8,7 +8,7 @@ import datetime
 
 
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def home():
     product_brand = engine.execute("""
                 SELECT pid, p.name as product_name, b.name as brand_name, price
@@ -18,7 +18,7 @@ def home():
     # print(product_brand.keys())
     return render_template('index.html', products=product_brand, login="Log In", username='')
     
-@app.route('/index/<username>')
+@app.route('/index/<username>', methods=['GET', 'POST'])
 def index(username):
     product_brand = engine.execute("""
                     SELECT pid, p.name as product_name, b.name as brand_name, price
@@ -66,30 +66,54 @@ def register():
         return redirect(url_for('login'))
     return render_template('register.html', form=form)
 
-@app.route('/product/<int:pid>')
+@app.route('/product/<int:pid>',methods=['GET', 'POST'])
 def product(pid):
+    username = request.args.get('username', None)
+    print(username)
+    form = ProductForm()
+    print(form.validate_on_submit())
+    if form.validate_on_submit():
+        print(12345)
     product = engine.execute("""
-    select * from products 
-    where pid = '%s'
+    select products.name as product_name, brands.name as brand_name, price, pid 
+    from products, brands
+    where pid = '%s' and products.bid = brands.bid;
     """ % (pid)).fetchone()
-    # comments = engine.execute("""
-    # SELECT * from place_order as p, comments_followed as c
-    # WHERE p.oid = c.oid and p.pid = '%s'
-    # """ % (pid))
-    # print(comments.keys())
-    return render_template('product.html', product=product)
+    comments = engine.execute("""
+    with temp(oid, cid, content, uid, rating) as
+    (SELECT p.oid, c.cid, c.content, c.uid, c.rating 
+    from place_order as p, comments_followed_post as c
+    WHERE p.oid = c.oid and p.pid = '%s')
+    select distinct oid, cid context, username, rating
+    from temp, users
+    where temp.uid = users.uid
+    """ % (pid))
+    print(comments.keys())
+    return render_template('product.html', product=product, comments=comments, form=form, username = username)
 
-@app.route('/profile/<username>')
+@app.route('/profile/<username>',methods=['GET', 'POST'])
 def profile(username):
+    form = ProfileForm()
+    if form.validate_on_submit():
+        print(form.comment.data)
     print(username, type(username))
     user = find_user(engine, username)
     user = Customer(user)
+
     orders = engine.execute("""
-    SELECT name, oid, price , p.pid as pid 
+    
+    SELECT name, oid, price , p.pid as pid, uid
     from place_order as o, products as p
     where o.uid = '%s' and p.pid = o. pid;
     """%(user.uid))
-    return render_template('profile.html', user = user, orders = orders)
+    return render_template('profile.html', user=user, orders=orders, form=form)
+@app.route('/cart/<username>',methods=['GET', 'POST'])
+def cart(username):
+    render_template('cart.html', user=username)
+
+@app.route('/profile/<username>',methods=['GET', 'POST'])
+def payment(username):
+    render_template('payment.html', user=username)
 
 @app.route('/checkout', methods=['GET', 'POST'])
 def checkout():
