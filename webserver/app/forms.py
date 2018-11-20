@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, DateField, SelectField, TextAreaField, IntegerField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, DateField, SelectField,HiddenField, TextAreaField, IntegerField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo, Length, NumberRange, Optional
 import datetime
 
@@ -25,9 +25,11 @@ class ProductForm(FlaskForm):
 	submit = SubmitField('ADD TO CART')
 
 class ProfileForm(FlaskForm):
+	oid = HiddenField()
+	pid = HiddenField()
 	comment = StringField('Leave comment messages here zph!', validators=[DataRequired()])
-	rating = SelectField('Rate here!',
-						   choices=[('one', '1'), ('two', '2'), ('three', '3'), ('four', '4'), ('five', '5')])
+	rating = SelectField('Rate here!',coerce=int,
+						   choices=[(1, '1'), (2, '2'), (3, '3'), (4, '4'), (5, '5')])
 	submit = SubmitField('Submit')
 	"""def validate_username(self, username):
 		user = find_first_query(engine, username.data, "username", "users")

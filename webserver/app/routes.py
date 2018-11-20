@@ -3,6 +3,7 @@ from app import app, engine
 from app.forms import *
 from flask_login import current_user, login_user, logout_user, login_required
 from app.models import *
+import datetime
 from config import Config
 import datetime
 
@@ -54,14 +55,15 @@ def register():
                 select max(uid) 
                 from users
                 """).fetchone()[0] + 1
+
         insert(
-            engine, "user", uid,
-            phone_number=form.phone_number,
-            address = form.birthday,
-            gender = form.gender,
-            birth_date = form.birthday,
-            password = form.password,
-            username = form.username)
+            engine, "users", uid,
+            phone_number=form.phone_number.data,
+            address = form.birthday.data,
+            gender = form.gender.data,
+            birth_date = form.birthday.data,
+            password = form.password.data,
+            username = form.username.data)
         flash('Thanks for registering')
         return redirect(url_for('login'))
     return render_template('register.html', form=form)
@@ -93,12 +95,21 @@ def product(pid):
 
 @app.route('/profile/<username>',methods=['GET', 'POST'])
 def profile(username):
-    form = ProfileForm()
-    if form.validate_on_submit():
-        print(form.comment.data)
-    print(username, type(username))
     user = find_user(engine, username)
     user = Customer(user)
+    form = ProfileForm()
+    if form.validate_on_submit():
+        cid = engine.execute("""
+                        select max(cid) 
+                        from comments_followed_post
+                        """).fetchone()[0] + 1
+        print(cid, form.oid, user.uid, form.pid, form.comment.data,datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'), form.rating.data)
+        print(engine.execute('select * from comments_followed_post').keys())
+        engine.execute("""
+        INSERT INTO comments_followed_post
+        VALUES ('%s', '%s','%s','%s','%s','%s','%s');
+        """)%(cid, form.oid, user.uid, form.pid, form.comment.data,datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'), form.rating.data)
+
 
     orders = engine.execute("""
     
@@ -109,7 +120,7 @@ def profile(username):
     return render_template('profile.html', user=user, orders=orders, form=form)
 @app.route('/cart/<username>',methods=['GET', 'POST'])
 def cart(username):
-    render_template('cart.html', user=username)
+    render_template('cart.html', user=username,items = items)
 
 @app.route('/profile/<username>',methods=['GET', 'POST'])
 def payment(username):
