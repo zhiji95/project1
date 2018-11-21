@@ -128,8 +128,12 @@ def profile(username):
     return render_template('profile.html', user=user, orders=orders, form=form)
 @app.route('/cart/<username>',methods=['GET', 'POST'])
 def cart(username):
+    """TODO: Given uid and pid, remove them from cart"""
+    form = CartForm()
     user = find_user(engine, username)
     user = Customer(user)
+    if form.validate_on_submit():
+        print(form.uid.data, form.pid.data)
     items = engine.execute("""
     select * 
     from add_to_cart as a, products as p
@@ -137,16 +141,35 @@ def cart(username):
     """%(user.uid))
     print(items.keys())
 
-    return render_template('cart.html', user=user, items=items)
+    return render_template('cart.html', user=user, items=items, form = form)
 
 @app.route('/profile/<username>',methods=['GET', 'POST'])
 def payment(username):
+    """TODO: Add a payment page"""
     return render_template('payment.html', user=username)
 
-@app.route('/checkout', methods=['GET', 'POST'])
-def checkout():
-    cart = []
-    return render_template('checkout.html', cart=cart)
+@app.route('/checkout/<username>', methods=['GET', 'POST'])
+def checkout(username):
+    """
+    TODO 1. 写一个返回总价格的sql放给checkout 2. if items_new is None and items is not none, remove all items in cart and insert them into order"""
+    form = CheckoutForm()
+    user = find_user(engine, username)
+    user = Customer(user)
+    items = engine.execute("""
+        select * 
+        from add_to_cart as a, products as p
+        where a.pid = p.pid and a.uid = '%s'
+        """ % (user.uid))
+
+
+
+
+
+    items_new = request.args.get('items', items)
+    print(items)
+    price = request.args.get('price', 1000)
+
+    return render_template('checkout.html',items=items_new, price=price, username=username)
 
 
 

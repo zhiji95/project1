@@ -31,6 +31,15 @@ class ProfileForm(FlaskForm):
 	rating = SelectField('Rate here!',coerce=int,
 						   choices=[(1, '1'), (2, '2'), (3, '3'), (4, '4'), (5, '5')])
 	submit = SubmitField('Submit')
+
+class CartForm(FlaskForm):
+	uid = StringField()
+	pid = StringField()
+	submit = SubmitField('Remove')
+
+class CheckoutForm(FlaskForm):
+	hidden = HiddenField()
+	submit = SubmitField('Checkout')
 	"""def validate_username(self, username):
 		user = find_first_query(engine, username.data, "username", "users")
 	"""

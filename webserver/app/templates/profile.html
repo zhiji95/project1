@@ -60,9 +60,18 @@
         </form>
             </div>
 
-
+    </div>
 
     {% endfor %}
+    <div>
+    {#        to home page module#}
+        {% if user%}
+            <a href="{{ url_for('index', username = user.username,login="Log Out")}}" class = "btn btn-primary btn-sm">Back</a>
+        {% endif %}
+        {% if not user%}
+            <a href="{{ url_for('home')}}" class = "btn btn-primary btn-sm">Back</a>
+        {% endif %}
+{#        to home page module#}
     </div>
 </body>
 <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>

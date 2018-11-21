@@ -37,15 +37,14 @@
                 <div class = "time">{{ comment['time'] }}</div>
             </div>
         {% endfor %}
+{#        to home page module#}
         {% if username %}
-            <a href={{ url_for('index', username = username,login="Log Out")}}> Back</a>
+            <a href="{{ url_for('index', username = username,login="Log Out")}}" class = "btn btn-primary btn-sm">Back</a>
         {% endif %}
         {% if not username %}
-            <button class="button">
-                <a href={{ url_for('home')}} >Back</a>
-            </button>
-
+            <a href="{{ url_for('home')}}" class = "btn btn-primary btn-sm">Back</a>
         {% endif %}
+{#        to home page module#}
     </div>
 
 

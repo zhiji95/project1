@@ -46,7 +46,7 @@
                         <a href="{{ url_for('profile', username = username) }}" class="btn btn-primary"> Profile</a>
                         {% endif %}
                         <a href="{{ url_for('login') }}" class="btn btn-primary">{{ login }}</a>
-                        <a href="{{ url_for('checkout') }}" class="btn btn-primary">Proceed to checkout</a></div>
+                        <a href="{{ url_for('checkout', username = username) }}" class="btn btn-primary">Proceed to checkout</a></div>
                 </div>
             </div>
         </div>
