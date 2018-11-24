@@ -43,3 +43,11 @@ class CheckoutForm(FlaskForm):
 	"""def validate_username(self, username):
 		user = find_first_query(engine, username.data, "username", "users")
 	"""
+
+class PaymentForm(FlaskForm):
+	payname = StringField('Name', validators=[DataRequired()])
+	payphone = StringField('Phone Number', validators=[DataRequired()])
+	paybank = SelectField('Bank', choices=[('Chase', 'Chase'), ('BOA', 'Bank of America'), ('Citi', 'Citibank')])
+	account = StringField('Account Number', validators=[DataRequired()])
+	billaddress = StringField('Billing Address', validators=[DataRequired()])
+	submit = SubmitField('Add New Payment Method')
