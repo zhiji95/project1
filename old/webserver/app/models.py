@@ -62,3 +62,28 @@ def find_user_id(engine, data):
 	fetch = cursor.first()
 	cursor.close()
 	return fetch
+
+def find_address(engine, data):
+	sql_text = '''
+			SELECT *
+			FROM user_payment
+			WHERE uid = '%s'
+		''' % (data)
+	return engine.execute(sql_text)
+
+def add_method_id(engine):
+	return engine.execute("""
+			SELECT max(method_id)
+			FROM user_payment
+			""").fetchone()[0]+1
+
+def add_method(engine, payphone, account, paybank, billaddress, payname, uid, method_id):
+	engine.execute("""
+			INSERT INTO user_payment
+			VALUES ('%s', '%s','%s','%s','%s','%s','%s');
+			""" % (payphone, account, paybank, billaddress, payname, uid, method_id)
+			)
+
+
+
+        

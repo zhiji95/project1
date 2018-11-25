@@ -37,13 +37,6 @@ class CartForm(FlaskForm):
 	pid = StringField()
 	submit = SubmitField('Remove')
 
-class CheckoutForm(FlaskForm):
-	hidden = HiddenField()
-	submit = SubmitField('Checkout')
-	"""def validate_username(self, username):
-		user = find_first_query(engine, username.data, "username", "users")
-	"""
-
 class PaymentForm(FlaskForm):
 	payname = StringField('Name', validators=[DataRequired()])
 	payphone = StringField('Phone Number', validators=[DataRequired()])
@@ -51,3 +44,8 @@ class PaymentForm(FlaskForm):
 	account = StringField('Account Number', validators=[DataRequired()])
 	billaddress = StringField('Billing Address', validators=[DataRequired()])
 	submit = SubmitField('Add New Payment Method')
+
+class CheckoutForm(FlaskForm):
+	hidden = HiddenField()
+	payments = SelectField('Payment Methods')
+	submit = SubmitField('Place Order')

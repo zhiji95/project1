@@ -143,10 +143,18 @@ def cart(username):
 
     return render_template('cart.html', user=user, items=items, form = form)
 
-@app.route('/profile/<username>',methods=['GET', 'POST'])
+@app.route('/payment/<username>',methods=['GET', 'POST'])
 def payment(username):
     """TODO: Add a payment page"""
-    return render_template('payment.html', user=username)
+    user = find_user(engine, username)
+    user = Customer(user)
+    form = PaymentForm()
+    if form.validate_on_submit():
+        method_id = add_method_id(engine)
+        add_method(engine, form.payphone.data, form.account.data, form.paybank.data, form.billaddress.data, form.payname.data, user.uid, method_id)
+        redirect(url_for('payment', username=username))
+    payments = find_address(engine, user.uid)
+    return render_template('payment.html', payments=payments, username=username, form=form)
 
 @app.route('/checkout/<username>', methods=['GET', 'POST'])
 def checkout(username):

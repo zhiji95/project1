@@ -28,12 +28,12 @@
 
 
     <div class="container">
-    {% for order in orders %}
+    {% for order in orders %} 
         <a href = {{ url_for('product', pid = order['pid'], username = user.username) }}>
             <div class = "order">
                 <li>{{ order['oid'] }}</li>
-                <li>{{order['name'] }}</li>
-                <li>$ {{ order['price'] }}</li>
+                <li>{{ order['name'] }}</li>
+                <li>{{ order['price'] }}</li>
             </div>
         </a>
             <div class = rating>
