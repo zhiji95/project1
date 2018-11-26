@@ -34,9 +34,9 @@ body {
 a.btn, a.btn-primary, a.btn-sm{
   font-size:50;
   font-family:Arial Black;
-  width: 1200;
+  width: 800px;
   height: 80;
-  margin: auto;
+  margin: 25px;
   background: #85B3D1;
 }
 

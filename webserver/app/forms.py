@@ -20,6 +20,7 @@ class RegistrationForm(FlaskForm):
 	submit = SubmitField('Sign Up')
 
 class ProductForm(FlaskForm):
+
 	quantity = SelectField('Quantity',coerce=int,
 						   choices=[(1, '1'), (2, '2'), (3, '3'), (4, '4'), (5, '5')])
 	submit = SubmitField('ADD TO CART')
@@ -54,4 +55,10 @@ class ManagerForm(FlaskForm):
 	name = StringField('Name', validators=[DataRequired()])
 	price = StringField('price', validators=[DataRequired()])
 	brand = StringField('brand', validators=[DataRequired()])
+	content = StringField('content', validators=[DataRequired()])
+	image = StringField('image url', validators=[DataRequired()])
 	submit = SubmitField('Add New Product')
+
+class DeleteForm(FlaskForm):
+	pid = SelectField("Product ID")
+	submit = SubmitField('Delete this product')

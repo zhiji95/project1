@@ -12,6 +12,9 @@ import datetime
 @app.route('/', methods=['GET', 'POST'])
 def home():
     product_brand = get_product_brand(engine)
+    if request.method == 'POST' and 'search' in request.form:
+        keyword = request.form['search'].lower()
+        product_brand = search_product(engine, keyword)
     return render_template('index.html', products=product_brand, login="Log In", username='')
     
 
@@ -21,9 +24,27 @@ def index(username):
     if request.method == 'POST' and 'search' in request.form:
         keyword = request.form['search'].lower()
         product_brand = search_product(engine, keyword)
-
         
     return render_template('index.html', products=product_brand, login="Log Out", username=username)
+@app.route('/delete', methods=['GET', 'POST'])
+def delete():
+    form = DeleteForm()
+    ps = engine.execute("""
+    select * from products;
+    """)
+    form.pid.choices = [(str(p['pid']),str(p['pid']) + str(p['name'])) for p in ps]
+    if form.validate_on_submit():
+        pid_in_order = list(engine.execute("""
+                Select pid FROM place_order;"""))
+        if form.pid.data not in pid_in_order:
+            engine.execute("""
+            DELETE FROM products
+            where products.pid = '%s';
+            """%(form.pid.data))
+        else:
+            print('Can not delete this product')
+        return redirect(url_for('home'))
+    return render_template('delete.html', form=form)
 
 @app.route('/manager', methods=['GET', 'POST'])
 def manager():
@@ -31,7 +52,6 @@ def manager():
 
     if form.validate_on_submit():
         brand = engine.execute("""Select bid from brands where brands.name = '%s';"""%(form.brand)).fetchone()
-        print(brand)
         if brand == None:
             brand_id = engine.execute("""
 			SELECT max(bid)
@@ -48,10 +68,17 @@ def manager():
 			SELECT max(pid)
 			FROM products
 			""").fetchone()[0]+1
+        did = add_id(engine, "did", "describe")
+
         engine.execute("""
         INSERT INTO products
         VALUES ('%s','%s','%s','%s');
         """%(product_id, brand_id,form.price.data, form.name.data))
+
+        engine.execute("""
+                        INSERT INTO describe
+                        VALUES ('%s','%s','%s','%s');
+            """ % (did, product_id, form.content.data, form.image.data))
         return redirect(url_for('home'))
     return render_template('manager.html',form=form)
 
@@ -88,7 +115,7 @@ def register():
             engine, "users", uid,
             phone_number=form.phone_number.data,
             address = form.birthday.data,
-            gender = form.gender.data,
+            gender=form.gender.data,
             birth_date = form.birthday.data,
             password = form.password.data,
             username = form.username.data)
@@ -100,9 +127,7 @@ def register():
 @app.route('/product/<int:pid>',methods=['GET', 'POST'])
 def product(pid):
     username = request.args.get('username', None)
-    print(username)
     form = ProductForm()
-    print(form.validate_on_submit())
 
     if form.validate_on_submit():
         time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
@@ -143,7 +168,7 @@ def cart(username):
         redirect(url_for('cart', username = user.username))
 
     items = get_item_to_checkout(engine, user.uid)
-    return render_template('cart.html', user=user, items=items, form = form)
+    return render_template('cart.html', user=user, items=items, form=form)
 
 
 @app.route('/payment/<username>',methods=['GET', 'POST'])
@@ -167,23 +192,25 @@ def checkout(username):
     user = find_user(engine, username)
     user = Customer(user)
     items = get_item_to_checkout(engine, user.uid)
-    items_new = items
-    price = request.args.get('price', 1000)
+    items_new = get_item_to_checkout(engine, user.uid)
+    price = request.args.get('price', 0)
     avaliable_payments = find_address(engine, user.uid)
     payment_list = [(str(p['uid']), str(p['account_number'])) for p in avaliable_payments]
     form = CheckoutForm()
     form.payments.choices = payment_list
+    for i in items:
+        price += i['amount'] * i['price']
 
     if request.method == "POST" and "placeorder" in request.form:
         new_items = list(items_new)
         # delete your items from your cart
         for i in new_items:
-            print(i)
             oid = add_id(engine, 'oid', 'place_order')
             item_to_add = get_item_in_cart(engine, user.uid, i[0])
             add_order(engine, oid, user.uid, i[0], i[2])
             delete_item_in_cart(engine, user.uid, i[0])
-        return redirect(url_for("placeorder", username=username, items=new_items))
+
+        return redirect(url_for("placeorder", username=username, items=new_items, price=price))
 
     return render_template('checkout.html',items=items_new, price=price, username=username, form=form)
 

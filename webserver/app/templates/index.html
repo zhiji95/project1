@@ -45,15 +45,17 @@
         <div class="htop">
             <div id="checkoutdiv " class="container">
                 <div class="row">
-                    <div class="col-md-6 text-xs-right ">(<span class="items text-muted"></span> <small>items</small>) <span class="total"></span> </div>
+{#                    <div class="col-md-6 text-xs-right ">(<span class="items text-muted"></span> <small>items</small>) <span class="total"></span> </div>#}
                     <div class="col-md-6 text-xs-right">
-                        <span class="btn btn-success" data-toggle="modal" data-target="#cart">Open Shopping Cart</span>
+
                         {%  if login == 'Log Out' %}
                         <a>Welcome {{ username }} !</a>
+                       <a href="{{ url_for('cart', username = username) }}" class="btn btn-primary"> Open shopping cart</a>
                         <a href="{{ url_for('profile', username = username) }}" class="btn btn-primary"> Profile</a>
+                        <a href="{{ url_for('checkout', username = username) }}" class="btn btn-primary">Proceed to checkout</a></div>
+
                         {% endif %}
                         <a href="{{ url_for('login') }}" class="btn btn-primary">{{ login }}</a>
-                        <a href="{{ url_for('checkout', username = username) }}" class="btn btn-primary">Proceed to checkout</a></div>
                 </div>
             </div>
         </div>
@@ -71,16 +73,18 @@
                 </nav>
             </div>
         </div> -->
+
+    </header>
+    <div class="content">
+
+        <!-- content changes on each page -->
+        <div class="container">
         <div>
             <form method="POST">
                 <input type="text" name="search">
-                <input type="submit" name="submitsearch">
+                <input type="submit" name="submitsearch" value="Search">
             </form>
         </div>
-    </header>
-    <div class="content">
-        <!-- content changes on each page -->
-        <div class="container">
             {% for product in products %}
                 <a href = {{ url_for('product', pid = product['pid'], username = username) }}>
                 <div class="col-md-3">
@@ -89,12 +93,12 @@
                             <h3 class="card-title">{{ product['product_name'] }}</h3>
 {#                            <h3 class="brand-title">{{ product['brand_name'] }}</h3>#}
                             <h6 class="card-subtitle text-muted">$ {{ product['price'] }}</h6>
-                            <img src="http://placehold.it/350x150" class="img-fluid"> </div>
-                        <div class="card-block">
-                            <div class="card-text"> Rating: {{ product['rating'] }}
-                                <a href="#" class="productItem btn btn-primary" data-name={{ product['product_name'] }} data-price={{ product['price']*100 }} data-id={{ product['pid'] }}>Add to Cart</a>
-                            </div>
-                        </div>
+                            <img src="{{ product['image'] }}"  height = "120" width="120"> </div>
+{#                        <div class="card-block">#}
+{#                            <div class="card-text"> Rating: {{ product['rating'] }}#}
+{#                                <a href="#" class="productItem btn btn-primary" data-name={{ product['product_name'] }} data-price={{ product['price']*100 }} data-id={{ product['pid'] }}>Add to Cart</a>#}
+{#                            </div>#}
+{#                        </div>#}
                     </div>
                 </div>
                 </a>

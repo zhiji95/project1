@@ -53,16 +53,18 @@ def find_user_id(engine, data):
 
 def get_product_brand(engine):
 	return engine.execute("""
-                SELECT pid, p.name as product_name, b.name as brand_name, price
-                FROM products as p, brands as b
-                WHERE p.bid = b.bid;
+                SELECT p.pid as pid, p.name as product_name, b.name as brand_name,
+                 price, d.content as content, image
+                FROM products as p, brands as b, describe as d
+                WHERE p.pid = d.pid and p.bid = b.bid;
                 """)
 
 def get_products(engine, data):
 	return engine.execute("""
-    		SELECT products.name as product_name, brands.name as brand_name, price, pid 
-    		FROM products, brands
-    		WHERE pid = '%s' and products.bid = brands.bid;
+    		SELECT products.name as product_name, brands.name as brand_name,
+    		 price, products.pid as pid, describe.content as content, image 
+    		FROM products, brands, describe
+    		WHERE products.pid = describe.pid and products.pid = '%s' and products.bid = brands.bid;
     		""" % (data)).fetchone()
 
 def get_comments(engine, data):
@@ -112,8 +114,7 @@ def get_item_to_checkout(engine, data):
         	select * 
         	from add_to_cart as a, products as p
         	where a.pid = p.pid and a.uid = '%s'
-        	""" % (data)
-        	)
+        	""" % (data))
 
 
 # Add data functions
@@ -178,8 +179,9 @@ def delete_item_in_cart(engine, data1, data2):
 			)
 def search_product(engine, keyword):
 	return engine.execute("""
-				SELECT pid, p.name as product_name, b.name as brand_name, price
-				FROM products p, brands b
-				WHERE lower(p.name) LIKE '%%%%%s%%%%' and p.bid=b.bid
+				SELECT p.pid, p.name as product_name, b.name as brand_name, 
+				price, d.content as content, image
+				FROM  products p, brands b, describe as d
+				WHERE lower(p.name) LIKE '%%%%%s%%%%' and p.bid=b.bid and p.pid = d.pid
 				""" % keyword
 				)

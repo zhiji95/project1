@@ -30,7 +30,7 @@
         <div class = "order">
             <form action="" method="post" novalidate>
                 {{ form.hidden_tag() }}
-                <p>
+                <p hidden>
                     {{ form.uid(value = user.uid) }}
                     {{ form.pid(value = item['pid']) }}</p>
                 <li>{{ item['name'] }}</li>

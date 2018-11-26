@@ -95,3 +95,11 @@ p {
   vertical-align:middle;
 
 }
+a.btn, a.btn-primary, a.btn-sm{
+  font-size:50;
+  font-family:Arial Black;
+  width: 800px;
+  height: 80;
+  margin: 25px;
+  background: #85B3D1;
+}
