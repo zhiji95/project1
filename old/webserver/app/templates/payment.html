@@ -86,9 +86,9 @@
     </div>
         <div>
         {#to home page module#}
-{#        {% if user%}#}
-        <a href="{{ url_for('profile', username = username) }}" class = "btn btn-primary btn-sm">Back</a>
-{#        {% endif %}#}
+        {% if user%}
+            <a href="{{ url_for('profile', username = user.username) }}" class = "btn btn-primary btn-sm">Back</a>
+        {% endif %}
 		{#to home page module#}
     </div>
 

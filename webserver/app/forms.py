@@ -49,3 +49,9 @@ class CheckoutForm(FlaskForm):
 	hidden = HiddenField()
 	payments = SelectField('Payment Methods')
 	submit = SubmitField('Place Order')
+
+class ManagerForm(FlaskForm):
+	name = StringField('Name', validators=[DataRequired()])
+	price = StringField('price', validators=[DataRequired()])
+	brand = StringField('brand', validators=[DataRequired()])
+	submit = SubmitField('Add New Product')

@@ -18,17 +18,55 @@ def home():
 @app.route('/index/<username>', methods=['GET', 'POST'])
 def index(username):
     product_brand = get_product_brand(engine)
+    if request.method == 'POST' and 'search' in request.form:
+        keyword = request.form['search'].lower()
+        product_brand = search_product(engine, keyword)
+
+        
     return render_template('index.html', products=product_brand, login="Log Out", username=username)
 
+@app.route('/manager', methods=['GET', 'POST'])
+def manager():
+    form = ManagerForm()
+
+    if form.validate_on_submit():
+        brand = engine.execute("""Select bid from brands where brands.name = '%s';"""%(form.brand)).fetchone()
+        print(brand)
+        if brand == None:
+            brand_id = engine.execute("""
+			SELECT max(bid)
+			FROM brands
+			""" ).fetchone()[0]+1
+            engine.execute("""
+            INSERT INTO brands
+            values('%s', '%s', 'No Description');
+            """%(brand_id, form.brand.data))
+        else:
+            brand_id = brand[0]
+
+        product_id =  engine.execute("""
+			SELECT max(pid)
+			FROM products
+			""").fetchone()[0]+1
+        engine.execute("""
+        INSERT INTO products
+        VALUES ('%s','%s','%s','%s');
+        """%(product_id, brand_id,form.price.data, form.name.data))
+        return redirect(url_for('home'))
+    return render_template('manager.html',form=form)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
     if form.validate_on_submit():
+        print(form.username, form.password)
+        if form.username.data in ["zhiji", "linnanli", "zphですよ"] and form.password.data == "coms4111":
+            return redirect(url_for('manager'))
         user = find_user(engine, form.username.data)
         if user is None or user.password != form.password.data:
             flash('Invalid username or password')
             return redirect(url_for('login'))
+
         user = Customer(user)
         login_user(user, remember=form.remember_me.data)
         return redirect(url_for('index', username=form.username.data))
@@ -115,7 +153,7 @@ def payment(username):
     form = PaymentForm()
 
     if form.validate_on_submit():
-        method_id = add_id(engine, method_id, user_payment)
+        method_id = add_id(engine, 'method_id', 'user_payment')
         add_method(engine, form.payphone.data, form.account.data, form.paybank.data, form.billaddress.data, form.payname.data, user.uid, method_id)
         redirect(url_for('payment', username=username))
 

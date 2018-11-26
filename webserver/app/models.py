@@ -176,3 +176,10 @@ def delete_item_in_cart(engine, data1, data2):
 			WHERE uid = '%s' and pid = '%s'
 			""" % (data1, data2)
 			)
+def search_product(engine, keyword):
+	return engine.execute("""
+				SELECT pid, p.name as product_name, b.name as brand_name, price
+				FROM products p, brands b
+				WHERE lower(p.name) LIKE '%%%%%s%%%%' and p.bid=b.bid
+				""" % keyword
+				)
