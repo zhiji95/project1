@@ -34,7 +34,7 @@
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/project1$server.coverage" NAME="server Coverage Results" MODIFIED="1542486011181" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/webserver" />
     <SUITE FILE_PATH="coverage/project1$app.coverage" NAME="app Coverage Results" MODIFIED="1542597471022" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/webserver" />
-    <SUITE FILE_PATH="coverage/project1$run.coverage" NAME="run Coverage Results" MODIFIED="1543299461392" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/webserver" />
+    <SUITE FILE_PATH="coverage/project1$run.coverage" NAME="run Coverage Results" MODIFIED="1543304658282" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/webserver" />
     <SUITE FILE_PATH="coverage/project1$hello.coverage" NAME="hello Coverage Results" MODIFIED="1542397121772" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/webserver" />
   </component>
   <component name="FUSProjectUsageTrigger">
@@ -73,14 +73,14 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="css" value="301" />
-          <entry key="html" value="4788" />
+          <entry key="html" value="4789" />
           <entry key="py" value="10140" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="CSS" value="301" />
-          <entry key="HTML" value="4788" />
+          <entry key="HTML" value="4789" />
           <entry key="Python" value="10087" />
           <entry key="SQL" value="53" />
         </counts>
@@ -131,11 +131,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/webserver/app/templates/login.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
-              <caret line="59" column="46" lean-forward="true" selection-start-line="59" selection-start-column="46" selection-end-line="59" selection-end-column="46" />
+            <state relative-caret-position="350">
+              <caret line="84" column="46" lean-forward="true" selection-start-line="84" selection-start-column="46" selection-end-line="84" selection-end-column="46" />
             </state>
           </provider>
         </entry>
@@ -158,11 +158,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/webserver/app/templates/checkout.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
-              <caret line="60" column="98" selection-start-line="60" selection-start-column="98" selection-end-line="60" selection-end-column="98" />
+            <state relative-caret-position="111">
+              <caret line="59" column="29" lean-forward="true" selection-start-line="59" selection-start-column="29" selection-end-line="59" selection-end-column="29" />
             </state>
           </provider>
         </entry>
@@ -202,7 +202,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>CheckoutForm</find>
       <find>get_products</find>
       <find>get_product_brand</find>
       <find>for</find>
@@ -232,6 +231,7 @@
       <find>login</find>
       <find>reme</find>
       <find>paypal</find>
+      <find>remember_me</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -272,8 +272,8 @@
         <option value="$PROJECT_DIR$/webserver/run.py" />
         <option value="$PROJECT_DIR$/webserver/app/routes.py" />
         <option value="$PROJECT_DIR$/webserver/app/forms.py" />
-        <option value="$PROJECT_DIR$/webserver/app/templates/login.html" />
         <option value="$PROJECT_DIR$/webserver/app/templates/checkout.html" />
+        <option value="$PROJECT_DIR$/webserver/app/templates/login.html" />
       </list>
     </option>
   </component>
@@ -540,10 +540,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="Favorites" order="0" side_tool="true" />
-      <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.19527897" />
+      <window_info content_ui="combo" id="Project" order="1" visible="true" weight="0.19527897" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Concurrent Activities Diagram" order="0" weight="0.32891566" />
       <window_info anchor="bottom" id="Database Changes" order="1" show_stripe_button="false" />
@@ -554,7 +553,7 @@
       <window_info anchor="bottom" id="Docker" order="6" show_stripe_button="false" />
       <window_info anchor="bottom" id="Message" order="7" />
       <window_info anchor="bottom" id="Find" order="8" weight="0.32891566" />
-      <window_info anchor="bottom" id="Run" order="9" visible="true" weight="0.42048192" />
+      <window_info active="true" anchor="bottom" id="Run" order="9" visible="true" weight="0.42048192" />
       <window_info anchor="bottom" id="Debug" order="10" weight="0.3987952" />
       <window_info anchor="bottom" id="Cvs" order="11" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="12" weight="0.4" />
@@ -853,13 +852,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/webserver/app/templates/login.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="59" column="46" lean-forward="true" selection-start-line="59" selection-start-column="46" selection-end-line="59" selection-end-column="46" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/webserver/app/templates/choose_payment.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="358">
@@ -869,8 +861,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/webserver/app/templates/checkout.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="60" column="98" selection-start-line="60" selection-start-column="98" selection-end-line="60" selection-end-column="98" />
+        <state relative-caret-position="111">
+          <caret line="59" column="29" lean-forward="true" selection-start-line="59" selection-start-column="29" selection-end-line="59" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webserver/app/templates/login.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="350">
+          <caret line="84" column="46" lean-forward="true" selection-start-line="84" selection-start-column="46" selection-end-line="84" selection-end-column="46" />
         </state>
       </provider>
     </entry>

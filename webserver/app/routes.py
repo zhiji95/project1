@@ -95,7 +95,7 @@ def login():
             return redirect(url_for('login'))
 
         user = Customer(user)
-        login_user(user, remember=form.remember_me.data)
+        login_user(user)
         return redirect(url_for('index', username=form.username.data))
     return render_template('login.html', title='Sign in', form=form)
 
