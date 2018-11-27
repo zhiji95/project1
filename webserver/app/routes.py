@@ -34,14 +34,12 @@ def delete():
     """)
     form.pid.choices = [(str(p['pid']),str(p['pid']) + str(p['name'])) for p in ps]
     if form.validate_on_submit():
-        pid_in_order = list(engine.execute("""
-                Select pid FROM place_order;"""))
-        if form.pid.data not in pid_in_order:
+        try:
             engine.execute("""
             DELETE FROM products
             where products.pid = '%s';
             """%(form.pid.data))
-        else:
+        except:
             print('Can not delete this product')
         return redirect(url_for('home'))
     return render_template('delete.html', form=form)
