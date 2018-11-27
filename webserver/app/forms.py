@@ -6,7 +6,6 @@ import datetime
 class LoginForm(FlaskForm):
 	username = StringField('Name', validators=[DataRequired()])
 	password = PasswordField('Password', validators=[DataRequired()])
-	remember_me = BooleanField('Remember Me')
 	submit = SubmitField('Sign In')
 
 class RegistrationForm(FlaskForm):
@@ -28,7 +27,7 @@ class ProductForm(FlaskForm):
 class ProfileForm(FlaskForm):
 	oid = StringField()
 	pid = StringField()
-	comment = StringField('Leave comment messages here zph!', validators=[DataRequired()])
+	comment = StringField('Leave comment messages here!', validators=[DataRequired()])
 	rating = SelectField('Rate here!',coerce=int,
 						   choices=[(1, '1'), (2, '2'), (3, '3'), (4, '4'), (5, '5')])
 	submit = SubmitField('Submit')
