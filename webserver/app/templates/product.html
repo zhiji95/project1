@@ -20,6 +20,7 @@
                 <img class = "image" src="{{ product['image'] }}" height="350" width="350">
         </ul>
         <div id="checkoutdiv " class="container">
+        {% if usernamne %}
         <form action="" method="post" novalidate>
         {{ form.hidden_tag() }}
             <p>
@@ -31,6 +32,7 @@
             </p>
             <p>{{ form.submit() }}</p>
         </form>
+        {%  endif %}
         {% for comment in comments %}
             <div class="row">
                 <div class = "username">{{ comment['username'] }} comments: </div>
