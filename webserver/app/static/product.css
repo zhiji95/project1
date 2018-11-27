@@ -32,15 +32,11 @@ body {
   font-family:fantasy;
 
 }
-.price{
+.price, .brand,.average_rating, .content{
   font-size:30;
   font-family:monospace;
 }
-.brand{
-  font-size:30;
-  font-family:monospace;
 
-}
 .tabs {
   background: #1ab188;
   height: auto;

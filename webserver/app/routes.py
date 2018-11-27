@@ -136,9 +136,17 @@ def product(pid):
         insert_to_cart(engine, pid, user.uid, form.quantity.data, time)
 
     product = get_products(engine, pid)
+    r_sum = 0
+    num = 0
+    for comment in get_comments(engine, pid):
+        r_sum += comment['rating']
+        num += 1
+
+    avg_rating = 0 if num==0 else round(r_sum/num,1);
+
     comments = get_comments(engine, pid)
-    print(comments.keys())
-    return render_template('product.html', product=product, comments=comments, form=form, username=username)
+
+    return render_template('product.html', product=product, comments=comments, form=form, username=username, avg_rating=avg_rating)
 
 
 @app.route('/profile/<username>',methods=['GET', 'POST'])
@@ -152,7 +160,7 @@ def profile(username):
         print(cid, form.oid.data, user.uid, form.pid.data, form.comment.data,datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'), form.rating.data)
         print(engine.execute('select * from comments_followed_post').keys())
         insert_to_comments(engine, cid, form.oid.data, user.uid, form.pid.data, form.comment.data, datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'), form.rating.data)
-        
+        return redirect(url_for('product', pid = form.pid.data, username = user.username))
     orders = get_orders(engine, user.uid)
     return render_template('profile.html', user=user, orders=orders, form=form)
 
