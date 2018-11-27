@@ -133,7 +133,13 @@ def product(pid):
         time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         user = find_user(engine, username)
         user = Customer(user)
-        insert_to_cart(engine, pid, user.uid, form.quantity.data, time)
+        try:
+            insert_to_cart(engine, pid, user.uid, form.quantity.data, time)
+        except:
+            print("invalid insert")
+
+
+
 
     product = get_products(engine, pid)
     r_sum = 0
