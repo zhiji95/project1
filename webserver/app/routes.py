@@ -63,22 +63,24 @@ def manager():
             """%(brand_id, form.brand.data))
         else:
             brand_id = brand[0]
+        try:
+            product_id=engine.execute("""
+                SELECT max(pid)
+                FROM products
+                """).fetchone()[0]+1
+            did = add_id(engine, "did", "describe")
+            print(did)
+            engine.execute("""
+            INSERT INTO products
+            VALUES ('%s','%s','%s','%s');
+            """%(product_id, brand_id,form.price.data, form.name.data))
 
-        product_id =  engine.execute("""
-			SELECT max(pid)
-			FROM products
-			""").fetchone()[0]+1
-        did = add_id(engine, "did", "describe")
-
-        engine.execute("""
-        INSERT INTO products
-        VALUES ('%s','%s','%s','%s');
-        """%(product_id, brand_id,form.price.data, form.name.data))
-
-        engine.execute("""
-                        INSERT INTO describe
-                        VALUES ('%s','%s','%s','%s');
-            """ % (did, product_id, form.content.data, form.image.data))
+            engine.execute("""
+                            INSERT INTO describe
+                            VALUES ('%s','%s','%s','%s');
+                """ % (did, product_id, form.content.data, form.image.data))
+        except:
+            print("invalid price type")
         return redirect(url_for('home'))
     return render_template('manager.html',form=form)
 
@@ -195,8 +197,7 @@ def payment(username):
 
 @app.route('/checkout/<username>', methods=['GET', 'POST'])
 def checkout(username):
-    """
-    TODO 1. 写一个返回总价格的sql放给checkout 2. if items_new is None and items is not none, remove all items in cart and insert them into order"""
+
     user = find_user(engine, username)
     user = Customer(user)
     items = get_item_to_checkout(engine, user.uid)
@@ -226,6 +227,5 @@ def checkout(username):
 @app.route('/placeorder/<username>/<items>', methods=['GET', 'POST'])
 def placeorder(username, items):
     items = eval(items)
-    print(items[0])
     return render_template('choose_payment.html', username=username, items=items)
 
